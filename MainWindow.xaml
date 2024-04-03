@@ -55,6 +55,8 @@
     <Viewbox>
         <Border BorderThickness="1" BorderBrush="Black" Margin="40" Width="110" Height="85"/>
     </Viewbox>
+
+    <Button Content="Save" Click="SaveButton_Click" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" />
     </Grid>
 
 </Window>
