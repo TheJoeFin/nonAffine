@@ -9,11 +9,8 @@ using System.Windows.Media.Media3D;
 
 namespace nonAffine;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-/// Original code by: Charles Petzold
-/// https://www.charlespetzold.com/blog/2007/08/250638.html
+// Original code by: Charles Petzold
+// https://www.charlespetzold.com/blog/2007/08/250638.html
 public partial class MainWindow : Window
 {
     bool isDragging;
@@ -188,11 +185,11 @@ public partial class MainWindow : Window
         if (sender is not Button button)
             return;
 
-        Size size = new(viewport3d.ActualWidth * 4, viewport3d.ActualHeight * 4);
+        Size size = new(viewport3d.ActualWidth, viewport3d.ActualHeight);
 
         if (size.IsEmpty)
             return;
-        
+
         RenderTargetBitmap rtb = new((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
         DrawingVisual dv = new();
         using DrawingContext context = dv.RenderOpen();
@@ -206,7 +203,7 @@ public partial class MainWindow : Window
 
         if (folder is null)
             return;
-        
+
         string imageFileName = $"{folder}\\tempFile.png";
         button.Content = imageFileName;
 
