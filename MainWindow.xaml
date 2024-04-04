@@ -28,7 +28,7 @@
                             <GeometryModel3D.Material>
                                 <DiffuseMaterial>
                                     <DiffuseMaterial.Brush>
-                                        <ImageBrush ImageSource="LetterPaperTest.jpg" />
+                                        <ImageBrush x:Name="MainImage" ImageSource="LetterPaperTest.jpg" />
                                     </DiffuseMaterial.Brush>
                                 </DiffuseMaterial>
                             </GeometryModel3D.Material>
@@ -74,11 +74,30 @@
         </Viewbox>
 
         <Button
+            x:Name="OpenButton"
             Margin="20"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="OpenButton_Click"
+            Content="Open Image" />
+
+        <StackPanel
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Click="SaveButton_Click"
-            Content="Save" />
+            Orientation="Horizontal">
+            <Button
+                x:Name="OpenFolder"
+                Margin="5,20"
+                Click="OpenFolder_Click"
+                Content="Open Folder"
+                IsEnabled="False" />
+
+            <Button
+                x:Name="SaveButton"
+                Margin="5,20,20,20"
+                Click="SaveButton_Click"
+                Content="Save" />
+        </StackPanel>
     </Grid>
 
 </Window>

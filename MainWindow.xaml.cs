@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -205,13 +207,42 @@ public partial class MainWindow : Window
             return;
 
         string imageFileName = $"{folder}\\tempFile.png";
-        button.Content = imageFileName;
 
         if (File.Exists(imageFileName))
             File.Delete(imageFileName);
 
         using FileStream fs = new(imageFileName, FileMode.Create);
         encoder.Save(fs);
+        OpenFolder.IsEnabled = true;
+        button.Content = "Saved as \"tempFile.png\"";
+    }
+
+    private void OpenButton_Click(object sender, RoutedEventArgs e)
+    {
+        OpenFileDialog openFileDialog = new()
+        {
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+            Filter = "PNG Files(*.png)|*.png|JPEG Files(*.jpg;*.jpeg)|*.jpg;*.jpeg|All files (*.*)|*.*"
+        };
+
+        if (openFileDialog.ShowDialog() != true)
+            return;
+
+        BitmapImage bitmap = new();
+        bitmap.BeginInit();
+        bitmap.UriSource = new(openFileDialog.FileName);
+        bitmap.EndInit();
+        MainImage.ImageSource = bitmap;
+    }
+
+    private void OpenFolder_Click(object sender, RoutedEventArgs e)
+    {
+        string? folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+        if (folder is null)
+            return;
+
+        Process.Start("explorer.exe", folder);
     }
 }
 
