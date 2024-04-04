@@ -72,6 +72,13 @@
                 BorderThickness=".3"
                 Opacity=".5" />
         </Viewbox>
+
+        <Button
+            Margin="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="SaveButton_Click"
+            Content="Save" />
     </Grid>
 
 </Window>
