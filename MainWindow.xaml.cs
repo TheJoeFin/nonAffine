@@ -1,17 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 
 namespace nonAffine;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-/// Original code by: Charles Petzold
-/// https://www.charlespetzold.com/blog/2007/08/250638.html
+// Original code by: Charles Petzold
+// https://www.charlespetzold.com/blog/2007/08/250638.html
 public partial class MainWindow : Window
 {
     bool isDragging;
@@ -179,6 +178,40 @@ public partial class MainWindow : Window
             throw new ArgumentException("Camera UpDirection must be (0, 1, 0)");
 
         return cam;
+    }
+
+    public void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button)
+            return;
+
+        Size size = new(viewport3d.ActualWidth, viewport3d.ActualHeight);
+
+        if (size.IsEmpty)
+            return;
+
+        RenderTargetBitmap rtb = new((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
+        DrawingVisual dv = new();
+        using DrawingContext context = dv.RenderOpen();
+        context.DrawRectangle(new VisualBrush(viewport3d), null, new Rect(new Point(), size));
+        context.Close();
+        rtb.Render(dv);
+
+        PngBitmapEncoder encoder = new();
+        encoder.Frames.Add(BitmapFrame.Create(rtb));
+        string? folder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+        if (folder is null)
+            return;
+
+        string imageFileName = $"{folder}\\tempFile.png";
+        button.Content = imageFileName;
+
+        if (File.Exists(imageFileName))
+            File.Delete(imageFileName);
+
+        using FileStream fs = new(imageFileName, FileMode.Create);
+        encoder.Save(fs);
     }
 }
 
