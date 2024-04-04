@@ -13,9 +13,9 @@ namespace nonAffine;
 // https://www.charlespetzold.com/blog/2007/08/250638.html
 public partial class MainWindow : Window
 {
-    bool isDragging;
-    int indexDragging;
-    readonly Point3D[] pointsTransformed = new Point3D[4];
+    private bool isDragging;
+    private int indexDragging;
+    private readonly Point3D[] pointsTransformed = new Point3D[4];
 
     public MainWindow()
     {
